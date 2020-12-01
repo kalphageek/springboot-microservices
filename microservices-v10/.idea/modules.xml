@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/gamification/gamification-v10.iml" filepath="$PROJECT_DIR$/gamification/gamification-v10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway/gateway-v10.iml" filepath="$PROJECT_DIR$/gateway/gateway-v10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/microservices-v10.iml" filepath="$PROJECT_DIR$/.idea/microservices-v10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-registry/service-registry-v10.iml" filepath="$PROJECT_DIR$/service-registry/service-registry-v10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/social-multiplication/social-multiplication-v10.iml" filepath="$PROJECT_DIR$/social-multiplication/social-multiplication-v10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tests_e2e/tests-e2e-v10.iml" filepath="$PROJECT_DIR$/tests_e2e/tests-e2e-v10.iml" />
+    </modules>
+  </component>
+</project>

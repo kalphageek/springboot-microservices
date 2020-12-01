@@ -14,7 +14,9 @@ import org.springframework.web.client.RestTemplate;
 @Component
 class MultiplicationResultAttemptClientImpl implements MultiplicationResultAttemptClient {
 
+  @Autowired
   private final RestTemplate restTemplate;
+  @Value("${multiplicationHost}")
   private final String multiplicationHost;
 
   @Autowired
