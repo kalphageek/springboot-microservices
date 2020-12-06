@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import microservices.book.gamification.service.GameService;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,7 +22,7 @@ class EventHandler {
 
   @RabbitListener(queues = "${multiplication.queue}")
   void handleMultiplicationSolved(final MultiplicationSolvedEvent event) {
-    log.info("Multiplication Solved Event 수신: {}", event.getMultiplicationResultAttemptId());
+    log.info("RabbitMQ - Multiplication Solved Event 수신: {}", event.getMultiplicationResultAttemptId());
     try {
       gameService.newAttemptForUser(event.getUserId(),
               event.getMultiplicationResultAttemptId(),

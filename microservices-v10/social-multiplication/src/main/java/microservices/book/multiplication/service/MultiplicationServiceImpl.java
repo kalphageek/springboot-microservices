@@ -4,6 +4,7 @@ import microservices.book.multiplication.domain.Multiplication;
 import microservices.book.multiplication.domain.MultiplicationResultAttempt;
 import microservices.book.multiplication.domain.User;
 import microservices.book.multiplication.event.EventDispatcher;
+import microservices.book.multiplication.event.KafkaEventDispatcher;
 import microservices.book.multiplication.event.MultiplicationSolvedEvent;
 import microservices.book.multiplication.repository.MultiplicationResultAttemptRepository;
 import microservices.book.multiplication.repository.UserRepository;
@@ -22,16 +23,19 @@ class MultiplicationServiceImpl implements MultiplicationService {
   private MultiplicationResultAttemptRepository attemptRepository;
   private UserRepository userRepository;
   private EventDispatcher eventDispatcher;
+  private KafkaEventDispatcher kafkaEventDispatcher;
 
   @Autowired
   public MultiplicationServiceImpl(final RandomGeneratorService randomGeneratorService,
                                    final MultiplicationResultAttemptRepository attemptRepository,
                                    final UserRepository userRepository,
-                                   final EventDispatcher eventDispatcher) {
+                                   final EventDispatcher eventDispatcher,
+                                   final KafkaEventDispatcher kafkaEventDispatcher) {
     this.randomGeneratorService = randomGeneratorService;
     this.attemptRepository = attemptRepository;
     this.userRepository = userRepository;
     this.eventDispatcher = eventDispatcher;
+    this.kafkaEventDispatcher = kafkaEventDispatcher;
   }
 
   @Override
@@ -67,6 +71,12 @@ class MultiplicationServiceImpl implements MultiplicationService {
 
     // 이벤트로 결과를 전송
     eventDispatcher.send(
+            new MultiplicationSolvedEvent(checkedAttempt.getId(),
+                    checkedAttempt.getUser().getId(),
+                    checkedAttempt.isCorrect())
+    );
+
+    kafkaEventDispatcher.send(
             new MultiplicationSolvedEvent(checkedAttempt.getId(),
                     checkedAttempt.getUser().getId(),
                     checkedAttempt.isCorrect())

@@ -19,6 +19,7 @@ public class EventDispatcher {
   // 특정 이벤트를 전송하기 위한 라우팅 키
   private String multiplicationSolvedRoutingKey;
 
+
   @Autowired
   EventDispatcher(final RabbitTemplate rabbitTemplate,
                   @Value("${multiplication.exchange}") final String multiplicationExchange,

@@ -4,6 +4,7 @@ import microservices.book.multiplication.domain.Multiplication;
 import microservices.book.multiplication.domain.MultiplicationResultAttempt;
 import microservices.book.multiplication.domain.User;
 import microservices.book.multiplication.event.EventDispatcher;
+import microservices.book.multiplication.event.KafkaEventDispatcher;
 import microservices.book.multiplication.event.MultiplicationSolvedEvent;
 import microservices.book.multiplication.repository.MultiplicationResultAttemptRepository;
 import microservices.book.multiplication.repository.UserRepository;
@@ -37,12 +38,15 @@ public class MultiplicationServiceImplTest {
   @Mock
   private EventDispatcher eventDispatcher;
 
+  @Mock
+  private KafkaEventDispatcher kafkaEventDispatcher;
+
   @Before
   public void setUp() {
     // initMocks 를 호출해 Mockito 가 어노테이션을 처리하도록 지시
     MockitoAnnotations.initMocks(this);
     multiplicationServiceImpl = new MultiplicationServiceImpl(randomGeneratorService, attemptRepository,
-            userRepository, eventDispatcher);
+            userRepository, eventDispatcher, kafkaEventDispatcher);
   }
 
   @Test
@@ -80,6 +84,7 @@ public class MultiplicationServiceImplTest {
     assertThat(resultAttempt.isCorrect()).isTrue();
     verify(attemptRepository).save(verifiedAttempt);
     verify(eventDispatcher).send(eq(event));
+    verify(kafkaEventDispatcher).send(eq(event));
   }
 
   @Test
@@ -103,6 +108,7 @@ public class MultiplicationServiceImplTest {
     assertThat(resultAttempt.isCorrect()).isFalse();
     verify(attemptRepository).save(attempt);
     verify(eventDispatcher).send(eq(event));
+    verify(kafkaEventDispatcher).send(eq(event));
   }
 
   @Test
